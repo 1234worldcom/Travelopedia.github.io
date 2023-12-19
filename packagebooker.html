@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holiday Package Booker</title>
+    <link rel="icon" type="image/x-icon" href="http://127.0.0.1:5500/img/logo.png">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+       
+        }
+
+        .container {
+            width: 80%;
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        label {
+            width: 45%;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="checkbox"] {
+            margin-bottom: 16px;
+        }
+
+        input[type="submit"] {
+            background-color: #007BFF;
+            color: #fff;
+            cursor: pointer;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        a {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            color: #4caf50;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Holiday Package Booker</h1>
+        <form action="/jay" method="post">
+            <label for="destination">Destination:</label>
+            <input type="text" id="destination" name="destination" required>
+
+            <label for="date-of-travel">Date of Travel:</label>
+            <input type="date" id="date-of-travel" name="date-of-travel" required>
+
+            <label for="duration">Duration (days):</label>
+            <input type="number" id="duration" name="duration" min="1" required>
+
+            <label for="travelers">Number of Travelers:</label>
+            <input type="number" id="travelers" name="travelers" min="1" required>
+
+            <label for="accommodation">Accommodation Preferences:</label>
+            <select id="accommodation" name="accommodation">
+                <option value="hotel">Hotel</option>
+                <option value="resort">Resort</option>
+                <option value="villa">Villa</option>
+            </select>
+
+            <label for="budget-range">Budget Range:</label>
+            <input type="range" id="budget-range" name="budget-range" min="1" max="100" step="1" value="50">
+            <output for="budget-range" id="budget-value">50</output>
+
+            <label>Additional Activities:</label>
+            <input type="checkbox" id="activity-beach" name="activity-beach">
+            <label for="activity-beach">Beach Activities</label>
+
+            <input type="checkbox" id="activity-sightseeing" name="activity-sightseeing">
+            <label for="activity-sightseeing">Sightseeing Tours</label>
+
+            <input type="checkbox" id="activity-adventure" name="activity-adventure">
+            <label for="activity-adventure">Adventure Excursions</label>
+
+            <label for="special-requests">Special Requests:</label>
+            <textarea id="special-requests" name="special-requests" rows="4"></textarea>
+
+            <input type="submit" value="Book Holiday Package">
+        </form>
+        <a href="tools.html">Back to Tools</a>
+    </div>
+
+    <script>
+        // Update budget value display
+        document.getElementById('budget-range').addEventListener('input', function() {
+            document.getElementById('budget-value').innerText = this.value;
+        });
+    </script>
+</body>
+</html>

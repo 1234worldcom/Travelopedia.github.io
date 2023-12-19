@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel or Resort Booker</title>
+    <link rel="icon" type="image/x-icon" href="http://127.0.0.1:5500/img/logo.png">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 80%;
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        label {
+            width: 45%;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="checkbox"] {
+            margin-bottom: 16px;
+        }
+
+        input[type="submit"] {
+            background-color: #007BFF;
+            color: #fff;
+            cursor: pointer;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        a {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            color: #4caf50;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hotel or Resort Booker</h1>
+        <form action="/jay" method="post">
+            <label for="destination">Location:</label>
+            <input type="text" id="destination" name="destination" required>
+
+            <label for="check-in-date">Check-In Date:</label>
+            <input type="date" id="check-in-date" name="check-in-date" required>
+
+            <label for="check-out-date">Check-Out Date:</label>
+            <input type="date" id="check-out-date" name="check-out-date" required>
+
+            <label for="rooms">Number of Rooms:</label>
+            <input type="number" id="rooms" name="rooms" min="1" required>
+
+            <label for="room-type">Room Type:</label>
+            <select id="room-type" name="room-type">
+                <option value="standard">Standard</option>
+                <option value="deluxe">Deluxe</option>
+                <option value="suite">Suite</option>
+            </select>
+
+            <label>Additional Amenities:</label>
+            <input type="checkbox" id="amenity-pool" name="amenity-pool">
+            <label for="amenity-pool">Swimming Pool</label>
+
+            <input type="checkbox" id="amenity-spa" name="amenity-spa">
+            <label for="amenity-spa">Spa Services</label>
+
+            <input type="checkbox" id="amenity-gym" name="amenity-gym">
+            <label for="amenity-gym">Fitness Center</label>
+
+            <label for="special-requests">Special Requests:</label>
+            <textarea id="special-requests" name="special-requests" rows="4"></textarea>
+
+            <input type="submit" value="Book Hotel/Resort">
+        </form>
+        <a href="tools.html">Back to Tools</a>
+    </div>
+</body>
+</html>

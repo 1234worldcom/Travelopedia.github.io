@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Place Search</title>
+    <link rel="icon" type="image/x-icon" href="http://127.0.0.1:5500/img/logo.png">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f8f8f8;
+        }
+
+        #search-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #query {
+            width: 70%;
+            padding: 8px;
+            margin-right: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        #search-button {
+            padding: 8px 16px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #results {
+            margin-top: 20px;
+        }
+
+        #back-to-tools {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            color: #4caf50;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .weather-info {
+            margin-top: 20px;
+            border-top: 1px solid #ccc;
+            padding-top: 20px;
+        }
+
+        .wikipedia-info {
+            margin-top: 20px;
+            border-top: 1px solid #ccc;
+            padding-top: 20px;
+        }
+
+        .wikipedia-info h3 {
+            color: #4caf50;
+        }
+
+        .wikipedia-info p {
+            margin-bottom: 15px;
+        }
+
+        .wikipedia-info img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 10px;
+            border-radius: 8px;
+        }
+
+        .image-table {
+            display: table;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .image-row {
+            display: table-row;
+        }
+
+        .image-cell {
+            display: table-cell;
+            width: 20%; /* Adjust the width of each cell as needed */
+            padding: 10px;
+            text-align: center;
+        }
+
+        .image-cell img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .image-cell img:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="search-container">
+        <form id="place-search-form">
+            <label for="query">Search for a place:</label>
+            <input type="text" id="query" name="q" value="city" placeholder="Only word please" required>
+            <button type="submit" id="search-button">Search</button>
+        </form>
+        <div id="map" style="height: 400px;"></div>
+        <div id="results"></div>
+        
+    </div>
+
+    <a href="tools.html" id="back-to-tools">Back to Tools</a>
+
+    <script>
+        // Initialize the map
+        document.getElementById('place-search-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            searchPlace();
+        });
+
+        // Wait for the DOM to be ready
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialize the map
+            const map = L.map('map').setView([0, 0], 2);
+
+            // Add a tile layer (you can use other providers like OpenStreetMap)
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+            // Store the map object in a global variable so it can be accessed in other functions
+            window.map = map;
+        });
+
+        function searchPlace() {
+            var query = document.getElementById('query').value;
+
+            // Validate form
+            if (!validateForm()) {
+                return;
+            }
+
+            // Perform geocoding using OpenCage API (replace YOUR_API_KEY with your actual API key)
+            const geocodingUrl = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(query)}&key=33e743df3b374bb8b2e8dd8ce75735f0`;
+
+            fetch(geocodingUrl)
+                .then(response => response.json())
+                .then(data => {
+                    // Get the first result (assuming it's the most relevant)
+                    const result = data.results[0];
+                    const { lat, lng } = result.geometry;
+
+                    // Set the map center to the geocoded location
+                    map.setView([lat, lng], 13);
+
+                    // Add a marker for the geocoded location
+                    L.marker([lat, lng]).addTo(map)
+                        .bindPopup(result.formatted);
+                        getWeatherInfo(query);
+                  
+                })
+                .catch(error => console.error('Error:', error));
+
+            // Fetch weather information and Wikipedia data
+            // (Ensure that your getWeatherInfo and fetchWikipediaData functions are correct and working)
+            // getWeatherInfo(query);
+        }
+
+
+        function getWeatherInfo(city) {
+            var weatherApiKey = '32ca3bbbb8f6a53fa5b686fc19fc4f42';
+            var weatherApiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + encodeURIComponent(city) + "&appid=32ca3bbbb8f6a53fa5b686fc19fc4f42";
+
+            fetch(weatherApiUrl)
+                .then(response => response.json())
+                .then(weatherData => {
+                    if (weatherData.cod === 200) {
+                        displayWeatherInfo(weatherData);
+                    } else {
+                        console.log('No data found. Enter only one word as city or country ');
+                        document.getElementById('results').innerHTML = '<p>No data found. Enter only one word as city or country</p>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching weather data:', error);
+                });
+        }
+
+        function displayWeatherInfo(weatherData) {
+            var resultsContainer = document.getElementById('results');
+            var weatherInfo = document.createElement('div');
+            weatherInfo.className = 'weather-info';
+            var weatherIcon = document.createElement('img');
+            weatherIcon.src = `http://openweathermap.org/img/w/${weatherData.weather[0].icon}.png`;
+            weatherIcon.alt = weatherData.weather[0].description;
+            var temperature = document.createElement('p');
+            temperature.textContent = `Temperature: ${Math.round(weatherData.main.temp - 273.15)}°C`;
+            var feelsLike = document.createElement('p');
+            feelsLike.textContent = `Feels Like: ${Math.round(weatherData.main.feels_like - 273.15)}°C`;
+            var tempMinMax = document.createElement('p');
+            tempMinMax.textContent = `Min/Max Temperature: ${Math.round(weatherData.main.temp_min - 273.15)}°C / ${Math.round(weatherData.main.temp_max - 273.15)}°C`;
+            var pressure = document.createElement('p');
+            pressure.textContent = `Pressure: ${weatherData.main.pressure} hPa`;
+            var humidity = document.createElement('p');
+            humidity.textContent = `Humidity: ${weatherData.main.humidity}%`;
+            var wind = document.createElement('p');
+            wind.textContent = `Wind Speed: ${weatherData.wind.speed} m/s, Direction: ${weatherData.wind.deg}°`;
+            var cloudiness = document.createElement('p');
+            cloudiness.textContent = `Cloudiness: ${weatherData.clouds.all}%`;
+
+            weatherInfo.appendChild(weatherIcon);
+            weatherInfo.appendChild(temperature);
+            weatherInfo.appendChild(feelsLike);
+            weatherInfo.appendChild(tempMinMax);
+            weatherInfo.appendChild(pressure);
+            weatherInfo.appendChild(humidity);
+            weatherInfo.appendChild(wind);
+            weatherInfo.appendChild(cloudiness);
+
+            resultsContainer.innerHTML = '';
+            resultsContainer.appendChild(weatherInfo);
+
+            fetchWikipediaData(weatherData.name);
+        }
+
+        
+
+        function fetchWikipediaData(city) {
+            var wikipediaApiUrl = `https://en.wikipedia.org/w/api.php?action=query&format=json&prop=images|extracts&titles=${city}&exintro=true&origin=*`;
+
+            fetch(wikipediaApiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    var page = data.query.pages[Object.keys(data.query.pages)[0]];
+                    var images = page.images || [];
+                    var extract = page.extract;
+
+                    var wikipediaInfo = document.createElement('div');
+                    wikipediaInfo.className = 'wikipedia-info';
+                    wikipediaInfo.innerHTML = `
+                        <h3>Travelopedia Info</h3>
+                        <div id="image-table" class="image-table"></div>
+                        <p>${extract}</p>
+                        
+                    `;
+
+                    var tableContainer = wikipediaInfo.querySelector('#image-table');
+
+                    // Add images to the table
+                    var currentRow;
+                    images.slice(0, 6).forEach((image, index) => {
+                        if (index % 3 === 0) {
+                            currentRow = document.createElement('div');
+                            currentRow.className = 'image-row';
+                            tableContainer.appendChild(currentRow);
+                        }
+
+                        var imageUrl = `https://en.wikipedia.org/wiki/Special:FilePath/${image.title}`;
+                        var cell = document.createElement('div');
+                        cell.className = 'image-cell';
+                        cell.innerHTML = `<img src="${imageUrl}" alt="Wikipedia Image ${index + 1}">`;
+
+                        currentRow.appendChild(cell);
+                    });
+
+                    var resultsContainer = document.getElementById('results');
+                    resultsContainer.appendChild(wikipediaInfo);
+                })
+                .catch(error => {
+                    console.error('Error fetching Wikipedia data:', error);
+                });
+        }
+
+        function validateForm() {
+            var inputValue = document.getElementById('query').value.trim();
+            var wordCount = inputValue.split(/\s+/).length;
+
+            if (wordCount !== 1) {
+                alert('Please enter only one word.');
+                return false; // Prevent form submission
+            }
+
+            return true; // Allow form submission
+        }
+    </script>
+
+    <!-- Add these lines to the head section of your HTML -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/plugins/lg-thumbnail.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/plugins/lg-fullscreen.min.js"></script>
+</body>
+</html>

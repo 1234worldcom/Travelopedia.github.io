@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Booker</title>
+    <link rel="icon" type="image/x-icon" href="http://127.0.0.1:5500/img/logo.png">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input,
+        select {
+            padding: 10px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="submit"] {
+            background-color: #007BFF;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <h1>Flight Booker</h1>
+        <form action="/jay" method="post">
+            <label for="origin">Origin:</label>
+            <input type="text" id="origin" name="origin" required>
+
+            <label for="destination">Destination:</label>
+            <input type="text" id="destination" name="destination" required>
+
+            <label for="departure-date">Departure Date:</label>
+            <input type="date" id="departure-date" name="departure-date" required>
+
+            <label for="return-date">Return Date:</label>
+            <input type="date" id="return-date" name="return-date">
+
+            <label for="passengers">Passengers:</label>
+            <input type="number">
+
+            <input type="submit" value="Search Flights">
+        </form>
+        <a style=" display: block;
+        margin-top: 20px;
+        text-align: center;
+        color: #4caf50;
+        text-decoration: none;
+        font-weight: bold;" href="tools.html">Back to Tools</a>
+    </div>
+</body>
+</html>

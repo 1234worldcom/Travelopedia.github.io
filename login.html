@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>  <link rel="icon" type="image/x-icon" href="http://127.0.0.1:5500/img/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url(https://img.freepik.com/free-vector/halftone-background-with-circles_23-2148907689.jpg?size=626&ext=jpg&ga=GA1.1.503859996.1665945134&semt=ais);
+            background-size: cover;
+    background-attachment:fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 400px;
+            background-color: #000000d0;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 40px rgba(250, 0, 154, 0.769);
+            -webkit-text-fill-color: #fff;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input {
+            padding: 10px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            -webkit-text-fill-color: #100f0f;
+        }
+
+        .input-icon {
+            position: relative;
+        }
+
+        .input-icon i {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 10px;
+            color: #555;
+        }
+
+        input[type="submit"] {
+            background-color: #2ecc71;
+            color: #fff;
+            cursor: pointer;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #27ae60;
+        }
+
+        .signup-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .signup-link:hover{
+            color: #2ecc71;
+            transition: ease-in-out 2s;
+            text-decoration: underline;
+            cursor: help;
+            
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Login</h1>
+        <form action="http://127.0.0.1:5500/" >
+            <label for="username" class="input-icon">
+                <i class="fas fa-user"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Username or E-mail:<span style="color: red !important; display: inline; float: none;">*</span> 
+            </label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password" class="input-icon">
+                <i class="fas fa-lock"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Password:<span style="color: red !important; display: inline; float: none;">*</span> 
+            </label>
+            <input type="password" id="password" name="password" required>
+
+         <a href="index.html">   <input type="submit"></a>
+        </form>
+        <a href="sign_up.html" class="signup-link">Don't have an account? Sign up here</a>
+    </div>
+</body>
+</html>
